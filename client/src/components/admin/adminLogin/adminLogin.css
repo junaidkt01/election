@@ -1,0 +1,19 @@
+.adminlogin {
+    display: grid;
+    justify-content: center;
+    margin-top: 5rem;
+  }
+  .admin-login-border {
+    border: solid 2px;
+    padding: 5rem;
+  }
+  .admin-login-border input {
+    margin-bottom: 1rem;
+    height: 1.5rem;
+  }
+  .admin-login-border .button {
+    width: 5rem;
+    height: 2rem;
+    cursor: pointer;
+  }
+  

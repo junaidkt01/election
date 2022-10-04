@@ -1,0 +1,23 @@
+.adminHome {
+    display: grid;
+    justify-content: center;
+    margin-top: 5rem;
+  }
+  .admin-home-border {
+    border: solid 2px;
+    padding: 7rem;
+  }
+  .admin-home {
+    margin-bottom: 1rem;
+  }
+  .admin-home button,
+  .user-home button {
+  width: 6rem;
+  height: 2rem;
+  }
+  .admin-home button .a,
+  .user-home button .a {
+    text-decoration: none;
+    color: black;
+  }
+  

@@ -1,0 +1,14 @@
+.result {
+    display: grid;
+    justify-content: center;
+    margin-top: 5rem;
+  }
+  
+  table,
+  th,
+  td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 0.5rem 2rem;
+  }
+  

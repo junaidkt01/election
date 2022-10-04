@@ -1,0 +1,9 @@
+.leadersborder {
+  border: 2px solid black;
+  display: flex;
+  justify-content: space-between;
+}
+.leader{
+    border: 2px solid black;
+    padding: 1rem;
+}

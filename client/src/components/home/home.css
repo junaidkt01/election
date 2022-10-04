@@ -1,0 +1,22 @@
+.home {
+  display: grid;
+  justify-content: center;
+  margin-top: 5rem;
+}
+.border {
+  border: solid 2px;
+  padding: 7rem;
+}
+.admin-login {
+  margin-bottom: 1rem;
+}
+.admin-login button,
+.user-login button {
+width: 6rem;
+height: 2rem;
+}
+.admin-login button .a,
+.user-login button .a {
+  text-decoration: none;
+  color: black;
+}
