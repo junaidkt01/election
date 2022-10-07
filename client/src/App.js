@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AddLeader from "./components/admin/addLeader/AddLeader";
 import { AdminHome } from "./components/admin/adminHome/AdminHome";
 import AdminLogin from "./components/admin/adminLogin/AdminLogin";
 import AllData from "./components/admin/alldata/AllData";
 import Register from "./components/admin/register/Register";
-import Result from "./components/admin/result/Result";
 import Home from "./components/home/Home";
 import UserLogin from "./components/user/userLogin/UserLogin";
 import Vote from "./components/user/vote/Vote";
@@ -20,8 +20,8 @@ const App = () => {
           <Route path="/adminhome" element={<AdminHome />} />
           <Route path="/vote" element={<Vote />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/result" element={<Result />} />
           <Route path="/alldata" element={<AllData />} />
+          <Route path="/addleader" element={<AddLeader />} />
         </Routes>
       </BrowserRouter>
     </div>

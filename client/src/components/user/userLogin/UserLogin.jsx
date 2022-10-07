@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./userLogin.css";
 import { useNavigate } from "react-router-dom";
-import backendUrl from "../../../BackendLink/backendLink";
 
 const UserLogin = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/getpolls")
+      .then((res) => res.json())
+      .then((data) => setData(data))
+      .catch((err) => console.log(err));
+  }, []);
+
+ 
   const navigate = useNavigate();
   const [registerId, setRegisterId] = useState("");
   const [password, setPassword] = useState("");
+
+  const isSameUser = data.some((items) => items.voter === registerId);
 
   async function loginUser(e) {
     e.preventDefault();
@@ -20,15 +31,19 @@ const UserLogin = () => {
       }),
     });
     const data = await response.json();
-    console.log("user: ",data.voter.registerId)
+   
     localStorage.setItem("voter", data.voter);
-    if (data.user) {
-      alert("Login Successful");
-      navigate("/vote");
+    if (!isSameUser) {
+      if (data.user) {
+        alert("Login Successful");
+        navigate("/vote");
+      } else {
+        alert("please check your id and password");
+      }
+      localStorage.setItem("token", data.user);
     } else {
-      alert("please check your id and password");
+      alert("You have already voted");
     }
-    localStorage.setItem("token", data.user);
   }
 
   return (

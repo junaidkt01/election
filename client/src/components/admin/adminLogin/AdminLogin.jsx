@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./adminLogin.css";
 import { useNavigate } from "react-router-dom";
-import backendUrl from "../../../BackendLink/backendLink";
 
 const AdminLogin = () => {
   const navigate = useNavigate();

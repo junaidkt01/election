@@ -14,17 +14,18 @@ export const AdminHome = () => {
               </Link>
             </button>
           </div>
-          <div className="user-home">
+          <div className="admin-home">
             <button>
-              <Link className="a" to="/result">
-                Result
+              <Link className="a" to="/addleader">
+                Add leader
               </Link>
             </button>
           </div>
+        
           <div className="user-home">
             <button>
               <Link className="a" to="/alldata">
-                All data
+                Result
               </Link>
             </button>
           </div>

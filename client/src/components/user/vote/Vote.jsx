@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from "react";
-import backendUrl from "../../../BackendLink/backendLink";
 import "./vote.css";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const Vote = () => {
+  const [data, setData] = useState([]);
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    fetch("/api/getpolls")
+      .then((res) => res.json())
+      .then((data) => setData(data))
+      .catch((err) => console.log(err));
+  }, []);
   const [values, setValues] = useState([]);
   const [leadername, setLeaderName] = useState("");
   const [voter, setVoter] = useState("");
-  console.log(values);
-  console.log("me", leadername, voter);
 
-  // const [sumPoint, setSumPoint] = useState();
-  // console.log(sumPoint);
-  // const addOne = sumPoint + 1;
-  // console.log(localStorage.getItem("token"));
+  const isSameUser = data.some((items) => {
+    return items.voter === voter || voter === null;
+  });
+  console.log(isSameUser);
 
   useEffect(() => {
+    setVoter(localStorage.getItem("voter"));
     getDatas();
   }, []);
   const getDatas = () => {
@@ -31,21 +39,9 @@ const Vote = () => {
       .then((res) => {
         console.log("res", res);
         localStorage.setItem("leadername", res.data.leadername);
+        setLeaderName(localStorage.getItem("leadername"));
       })
       .catch((err) => console.log(err));
-
-    // axios.get("/api/getleader", {
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     id: userId,
-    //   })
-    // })
-    //   // .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log("data", data.leadername);
-    //     localStorage.setItem("leadername", data.leadername);
-    //   })
-    //   .catch((err) => console.error("error: ", err));
   }
   function voteHandle() {
     fetch("/api/poll", {
@@ -69,7 +65,6 @@ const Vote = () => {
             <th>Name</th>
             <th>Icon</th>
             <th>Vote</th>
-            <td>point</td>
           </tr>
           {values.map((items, index) => {
             return (
@@ -82,31 +77,25 @@ const Vote = () => {
                 <td>
                   <button
                     onClick={() => {
-                      // setLeaderName(localStorage.getItem("leadername"));
-                      // setVoter(localStorage.getItem("voter"));
-                      getpoll(items._id);
-                      console.log(items.leadername);
+                      if (isSameUser) {
+                        alert("You can't do twice");
+                        navigate('/')
+                      } else {
+                        getpoll(items._id);
+                      }
                     }}
-                  >
+                    >
                     vote
                   </button>
                   <button
                     onClick={() => {
-                      setLeaderName(localStorage.getItem("leadername"));
-                      setVoter(localStorage.getItem("voter"));
-                    }}
-                  >
-                    get
-                  </button>
-                  <button
-                    onClick={() => {
                       voteHandle();
+                      navigate('/')
                     }}
                   >
                     Confirm
                   </button>
                 </td>
-                <td>{items.point}</td>
               </tr>
             );
           })}

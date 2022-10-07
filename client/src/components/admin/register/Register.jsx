@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import backendUrl from "../../../BackendLink/backendLink";
 import "./register.css";
 
 const Register = () => {
@@ -20,7 +19,6 @@ const Register = () => {
     });
 
     const data = await response.json();
-    console.log(data);
     if (data.message) alert("User added successfully");
     if (data.error) alert(data.error);
   }

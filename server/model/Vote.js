@@ -4,7 +4,7 @@ const { ObjectId } = mongoose.Schema.Types;
 
 const PointSchema = Schema({
   leadername: { type: String, required: true },
-  point: { type: Number, required: true },
+  point: { type: Number, required: false },
   votedby: { type: ObjectId, ref: "User" },
 });
 const Point = mongoose.model("Point", PointSchema);

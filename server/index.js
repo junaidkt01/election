@@ -5,9 +5,10 @@ const User = require("./model/user.model");
 const Point = require("./model/Vote");
 const jwt = require("jsonwebtoken");
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const bodyParser = require("body-parser");
 const Poll = require("./model/poll");
+const { MONGOURL } = require("./valueKeys");
 
 bodyParser.urlencoded({ extended: true });
 app.use(
@@ -16,6 +17,7 @@ app.use(
   })
 );
 app.use(express.json());
+
 // -------------AUTHETICATION
 
 function verifyJWT(req, res, next) {
@@ -35,28 +37,10 @@ function verifyJWT(req, res, next) {
     const { id } = payload;
     console.log("id: ", id);
     User.findById(id).then((userData) => {
-      // res.json(payload);
       req.user = userData.registerId;
       next();
     });
   });
-  //////////////////////////////////////
-  // const token = req.headers["x-access-token"];
-  // if (!token) {
-  //   res.json("we need token");
-  // } else {
-  //   jwt.verify(token, "secret123", (err, decoded) => {
-  //     if (err) {
-  //       res.json("faild to authenticate");
-  //       console.log(err)
-  //     } else {
-  //       res.json(decoded)
-  //       req.userId = decoded.id;
-  //       next();
-
-  //     }
-  //   });
-  // }
 }
 
 // -------------USER
@@ -85,7 +69,7 @@ app.post("/api/register", async (req, res) => {
 
     res.json({ status: "ok", message: "Added successfully" });
   } catch (err) {
-    res.json({ status: "error", error: "Dublicate number" });
+    res.json({ status: "error", error: "Failed" });
   }
 });
 
@@ -108,6 +92,18 @@ app.post("/api/login", async (req, res) => {
 app.get("/api/getpoints", async (req, res) => {
   await Point.find()
     .then((point) => res.json(point))
+    .catch((err) => res.json(err));
+});
+
+app.post("/api/addleader", (req, res) => {
+  const { leadername } = req.body;
+  const point = new Point({
+    leadername,
+  });
+
+  point
+    .save()
+    .then(() => res.json({ message: "Leader added" }))
     .catch((err) => res.json(err));
 });
 
@@ -148,12 +144,24 @@ app.post("/api/updatepoll", (req, res) => {
   });
 });
 
-mongoose
-  .connect("mongodb://127.0.0.1:27017/voting-app", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("mongoDB connected DB name 'voting-app'"))
-  .catch((err) => console.log(err));
+
+// mongoose
+
+mongoose.connect(MONGOURL)
+mongoose.connection.on('connected',()=>{
+console.log("mongoDB connected")
+})
+mongoose.connection.on('error',()=>{
+console.log("mongoDB connection error")
+})
+
+
+// mongoose
+//   .connect("mongodb://127.0.0.1:27017/voting-app", {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   })
+//   .then(() => console.log("mongoDB connected DB name 'voting-app'"))
+//   .catch((err) => console.log(err));
 
 app.listen(PORT, () => console.log(`server on port ${PORT}`));
